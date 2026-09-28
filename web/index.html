@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSR - Clima Sobre Rodas</title>
+  
+  <!-- 1. Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- 2. Stylesheet Link (Loads style.scss) -->
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+  <div class="nix-demo-container">
+    <header class="nix-demo-header">
+      <div class="nix-demo-badge">Mudar</div>
+      <h1>Titulo para Mudar</h1>
+      <p>(Icone) - Não recomendamos o uso exclusivamente desse site para planeja suas viagens</p>
+      
+      <!-- Theme Switcher -->
+      <button type="button" class="nix-theme-toggle" id="nix-theme-btn" aria-label="Toggle dark and light mode">
+        <span class="nix-theme-icon">◐</span> Alternar aparência
+      </button>
+    </header>
+
+    <form class="nix-demo-form" id="nix-demo-form" onsubmit="event.preventDefault(); alert('Form submitted successfully!');">
+      
+      <!-- 1. Busca em tempo real -->
+      <div class="nix-field">
+        <label for="nix-single-country" class="nix-label">
+          Selecione a Cidade de saída <span class="nix-required">*</span>
+        </label>
+        
+        
+        <div class="nix-select" data-nix-select data-searchable="true" data-placeholder="Choose your location...">
+          <select id="nix-single-country" name="country" required class="nix-select__native">
+            <option value="">Escolha sua localização...</option>
+            <option value="us">United States</option>
+            <option value="gb">United Kingdom</option>
+            <option value="ca">Canada</option>
+            <option value="de">Germany</option>
+            <option value="fr">France</option>
+            <option value="ae">United Arab Emirates</option>
+            <option value="au">Australia</option>
+            <option value="jp">Japan</option>
+            <option value="pk">Pakistan</option>
+            <option value="sa">Saudi Arabia</option>
+          </select>
+        </div>
+        <span class="nix-helper">Single choice with real-time search filtering</span>
+      </div>
+
+      <!-- 2. Multi-Select with Search Filter and Chip Tags -->
+      <div class="nix-field">
+        <label for="nix-multi-stack" class="nix-label">
+          Definir Data/Horário de saída <span class="nix-required">*</span>
+        </label>
+        
+        <div class="nix-select is-multiselect" data-nix-select data-multiple="true" data-searchable="true" data-placeholder="Select services or tools...">
+          <select id="nix-multi-stack" name="tech_stack" multiple required class="nix-select__native">
+            <option value="wordpress" selected>WordPress Core Architecture</option>
+            <option value="woocommerce">WooCommerce Scaling</option>
+            <option value="scf" selected>Secure Custom Fields (SCF / ACF)</option>
+            <option value="redis">Redis Object Caching</option>
+            <option value="stripe">Stripe Payment Gateway</option>
+            <option value="graphql">Headless GraphQL / REST</option>
+            <option value="nextjs">Next.js / React Frontend</option>
+            <option value="cloudflare">Cloudflare Enterprise WAF</option>
+            <option value="hubspot">HubSpot / Salesforce CRM</option>
+          </select>
+        </div>
+        <span class="nix-helper">Multi-choice with removable chip tags and keyboard navigation</span>
+      </div>
+
+      <div class="nix-actions">
+        <button type="submit" class="nix-btn nix-btn--primary">
+          Submit Form &amp; Inspect Data
+        </button>
+        <button type="reset" class="nix-btn nix-btn--ghost">
+          Reset Fields
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- 3. JavaScript Link (Runs script.ts) -->
+  <script type="module" src="./script.js"></script>
+</body>
+</html>
