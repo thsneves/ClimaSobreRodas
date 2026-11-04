@@ -36,4 +36,6 @@ def buscar_cidade(texto, limite=5):
         if len(resultados) >= limite:
             break
 
+
     return resultados
+print(p.planejar("Valença Bahia", "Taperoá Bahia", None))
