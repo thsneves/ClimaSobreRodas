@@ -1,0 +1,432 @@
+/* =========================================================================
+   NixSelect - Standalone Design System Primitive
+   Author: WPTechnix (https://wptechnix.com/)
+   Architecture: 100% Pixel-Free, Logical Properties, WCAG 2.2 AAA
+   ========================================================================= */
+:root {
+  --nix-font: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --nix-primary: #00b277;
+  --nix-primary-rgb: 0, 178, 119;
+  --nix-danger: #dc3545;
+  --nix-bg: #ffffff;
+  --nix-surface: #f8fafc;
+  --nix-text: #0f172a;
+  --nix-text-secondary: #64748b;
+  --nix-border: rgba(15, 23, 42, 0.12);
+  --nix-radius: 0.5rem;
+  --nix-radius-pill: 50rem;
+  --nix-touch-target: 2.75rem; /* 44px equivalent */
+  --nix-shadow: 0 0.75rem 2rem -0.25rem rgba(0, 0, 0, 0.12), 0 0.25rem 0.75rem -0.125rem rgba(0, 0, 0, 0.08);
+  --dir-factor: 1;
+}
+
+[dir=rtl] {
+  --dir-factor: -1;
+}
+
+/* Dark Mode Tokens */
+[data-theme=dark] {
+  --nix-bg: #121418;
+  --nix-surface: #1a1d24;
+  --nix-text: #f8fafc;
+  --nix-text-secondary: #94a3b8;
+  --nix-border: rgba(255, 255, 255, 0.14);
+  --nix-shadow: 0 1rem 2.5rem -0.5rem rgba(0, 0, 0, 0.55), 0 0 0 0.0625rem rgba(255, 255, 255, 0.08);
+}
+
+/* -------------------------------------------------------------------------
+   NixSelect Component Shell
+   ------------------------------------------------------------------------- */
+.nix-select {
+  position: relative;
+  inline-size: 100%;
+  font-family: var(--nix-font);
+  user-select: none;
+  /* Native Fallback Input: Hidden visually but accessible to screen readers & form serialization */
+  /* Trigger Button */
+  /* Rotating Chevron Arrow */
+  /* Selected Text & Multi-Tag Display Container */
+  /* Multi-Select Chip Badge */
+  /* Floating Dropdown Menu */
+  /* Real-Time Search Box */
+  /* Option Items */
+}
+.nix-select__native {
+  position: absolute !important;
+  inline-size: 0.0625rem !important;
+  block-size: 0.0625rem !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  margin: -0.0625rem !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+}
+.nix-select__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  inline-size: 100%;
+  min-block-size: var(--nix-touch-target);
+  padding-block: 0.5625rem;
+  padding-inline: 0.875rem;
+  background-color: var(--nix-bg);
+  border: 0.0625rem solid var(--nix-border);
+  border-radius: var(--nix-radius);
+  color: var(--nix-text);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.4;
+  cursor: pointer;
+  text-align: start;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.nix-select__trigger:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--nix-primary) 60%, transparent);
+}
+.nix-select__trigger:focus-visible {
+  border-color: var(--nix-primary);
+  box-shadow: 0 0 0 0.1875rem color-mix(in srgb, var(--nix-primary) 22%, transparent);
+}
+.nix-select__trigger:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.nix-select__arrow {
+  inline-size: 0.875rem;
+  block-size: 0.875rem;
+  color: var(--nix-text-secondary);
+  flex-shrink: 0;
+  margin-inline-start: 0.5rem;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+}
+.nix-select__arrow svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  stroke: currentColor;
+  fill: none;
+}
+.nix-select__display {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  flex-grow: 1;
+  min-inline-size: 0;
+}
+.nix-select__placeholder {
+  color: var(--nix-text-secondary);
+}
+.nix-select__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding-block: 0.1875rem;
+  padding-inline: 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  border-radius: var(--nix-radius-pill);
+  background-color: color-mix(in srgb, var(--nix-primary) 12%, transparent);
+  border: 0.0625rem solid color-mix(in srgb, var(--nix-primary) 32%, transparent);
+  color: var(--nix-primary);
+  max-inline-size: 14rem;
+}
+.nix-select__chip-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nix-select__chip-remove {
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.65;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+.nix-select__chip-remove:hover {
+  opacity: 1;
+  color: var(--nix-danger);
+}
+.nix-select__dropdown {
+  position: absolute;
+  inset-block-start: calc(100% + 0.375rem);
+  inset-inline: 0;
+  z-index: 1050;
+  max-block-size: 16rem;
+  overflow-y: auto;
+  border-radius: calc(var(--nix-radius) + 0.25rem);
+  border: 0.0625rem solid var(--nix-border);
+  background-color: var(--nix-bg);
+  box-shadow: var(--nix-shadow);
+  padding: 0.375rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.375rem) scale(0.99);
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s ease;
+  scrollbar-width: thin;
+  scrollbar-color: var(--nix-border) transparent;
+}
+.nix-select__dropdown::-webkit-scrollbar {
+  inline-size: 0.25rem;
+}
+.nix-select__dropdown::-webkit-scrollbar-thumb {
+  background: var(--nix-border);
+  border-radius: var(--nix-radius-pill);
+}
+.nix-select__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-block: 0.25rem;
+  padding-inline: 0.25rem;
+  margin-block-end: 0.375rem;
+  border-block-end: 0.0625rem solid var(--nix-border);
+}
+.nix-select__search-icon {
+  position: absolute;
+  inset-inline-start: 0.75rem;
+  inline-size: 0.875rem;
+  block-size: 0.875rem;
+  color: var(--nix-text-secondary);
+  pointer-events: none;
+}
+.nix-select__search-input {
+  inline-size: 100%;
+  min-block-size: 2rem;
+  padding-block: 0.375rem;
+  padding-inline-start: 2.125rem;
+  padding-inline-end: 0.75rem;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  background-color: var(--nix-surface);
+  border: 0.0625rem solid var(--nix-border);
+  border-radius: var(--nix-radius-pill);
+  color: var(--nix-text);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.nix-select__search-input:focus {
+  border-color: var(--nix-primary);
+  box-shadow: 0 0 0 0.125rem color-mix(in srgb, var(--nix-primary) 18%, transparent);
+}
+.nix-select__options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nix-select__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-block: 0.5625rem;
+  padding-inline: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--nix-text);
+  border-radius: var(--nix-radius);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.nix-select__option:hover, .nix-select__option:focus {
+  background-color: color-mix(in srgb, var(--nix-primary) 10%, transparent);
+  color: var(--nix-primary);
+}
+.nix-select__option.is-selected {
+  background-color: color-mix(in srgb, var(--nix-primary) 14%, transparent);
+  color: var(--nix-primary);
+  font-weight: 700;
+}
+.nix-select__option.is-selected .nix-select__check {
+  opacity: 1;
+  transform: scale(1);
+}
+.nix-select__option.is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.nix-select__check {
+  opacity: 0;
+  transform: scale(0.5);
+  inline-size: 0.875rem;
+  block-size: 0.875rem;
+  color: var(--nix-primary);
+  margin-inline-start: auto;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nix-select__no-results {
+  text-align: center;
+  padding-block: 0.75rem;
+  padding-inline: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--nix-text-secondary);
+}
+
+/* -------------------------------------------------------------------------
+   Active & Upward Collision States
+   ------------------------------------------------------------------------- */
+.nix-select.is-open {
+  z-index: 1050;
+}
+.nix-select.is-open .nix-select__trigger {
+  border-color: var(--nix-primary);
+  box-shadow: 0 0 0 0.1875rem color-mix(in srgb, var(--nix-primary) 20%, transparent);
+}
+.nix-select.is-open .nix-select__arrow {
+  transform: rotate(180deg);
+  color: var(--nix-primary);
+}
+.nix-select.is-open .nix-select__dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+/* Upward Flip when space below is tight */
+.nix-select.open-upwards .nix-select__dropdown {
+  inset-block-start: auto;
+  inset-block-end: calc(100% + 0.375rem);
+  transform: translateY(0.375rem) scale(0.99);
+}
+.nix-select.open-upwards.is-open .nix-select__dropdown {
+  transform: translateY(0) scale(1);
+}
+
+/* -------------------------------------------------------------------------
+   Demo Presentation Layout
+   ------------------------------------------------------------------------- */
+body {
+  margin: 0;
+  min-block-size: 100vh;
+  background-color: var(--nix-surface);
+  color: var(--nix-text);
+  font-family: var(--nix-font);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+.nix-demo-container {
+  inline-size: 100%;
+  max-inline-size: 34rem;
+  background: var(--nix-bg);
+  border: 0.0625rem solid var(--nix-border);
+  border-radius: 1rem;
+  padding: 2.25rem 2rem;
+  box-shadow: var(--nix-shadow);
+  box-sizing: border-box;
+}
+
+.nix-demo-header {
+  margin-block-end: 2rem;
+  text-align: center;
+}
+.nix-demo-header h1 {
+  font-size: 1.875rem;
+  font-weight: 800;
+  margin: 0.5rem 0;
+  letter-spacing: -0.02em;
+}
+.nix-demo-header p {
+  font-size: 0.9rem;
+  color: var(--nix-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.nix-demo-badge {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: color-mix(in srgb, var(--nix-primary) 12%, transparent);
+  color: var(--nix-primary);
+  border-radius: var(--nix-radius-pill);
+}
+
+.nix-theme-toggle {
+  margin-block-start: 1rem;
+  background: transparent;
+  border: 0.0625rem solid var(--nix-border);
+  color: var(--nix-text);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--nix-radius-pill);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.nix-theme-toggle:hover {
+  background-color: color-mix(in srgb, var(--nix-primary) 10%, transparent);
+  color: var(--nix-primary);
+}
+
+.nix-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-block-end: 1.5rem;
+}
+
+.nix-label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--nix-text);
+}
+
+.nix-required {
+  color: var(--nix-danger);
+}
+
+.nix-helper {
+  font-size: 0.78125rem;
+  color: var(--nix-text-secondary);
+}
+
+.nix-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block-start: 2rem;
+  padding-block-start: 1.25rem;
+  border-block-start: 0.0625rem solid var(--nix-border);
+}
+
+.nix-btn {
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  min-block-size: 2.625rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--nix-radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.nix-btn--primary {
+  background-color: var(--nix-primary);
+  border: 0.0625rem solid var(--nix-primary);
+  color: #ffffff;
+  flex-grow: 1;
+}
+.nix-btn--primary:hover {
+  background-color: color-mix(in srgb, var(--nix-primary) 85%, #000);
+}
+.nix-btn--ghost {
+  background: transparent;
+  border: 0.0625rem solid var(--nix-border);
+  color: var(--nix-text);
+}
+.nix-btn--ghost:hover {
+  background-color: var(--nix-surface);
+}
