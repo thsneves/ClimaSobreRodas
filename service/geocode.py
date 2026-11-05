@@ -16,7 +16,7 @@ def buscar_cidade(texto, limite=5):
     for cid in data["features"]:
 
         propriedade = cid["properties"]
-        long, lati = cid["geometry"]["coordinates"]
+        lon, lat = cid["geometry"]["coordinates"]
         state = propriedade.get("state")
         name = propriedade.get("name")
         country = propriedade.get("country")
@@ -38,4 +38,3 @@ def buscar_cidade(texto, limite=5):
 
 
     return resultados
-print(p.planejar("Valença Bahia", "Taperoá Bahia", None))
