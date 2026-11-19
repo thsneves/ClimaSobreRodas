@@ -1,6 +1,7 @@
 from service.route import calcular_rota
 from service.geocode import buscar_cidade
 class PlanejadorViagem:
+
     def planejar(self, origem, destino, data):
         #metodos de uso interno á classe
         self._validar_ponto(origem)
@@ -37,6 +38,7 @@ class PlanejadorViagem:
             raise ValueError("Coordenadas fora do intervalo válido.")
 
         
-    def _escolher_pontos(self, pontos_rota): ...   
-    def _buscar_clima(self, pontos, data): ... 
+    def _escolher_pontos(self, pontos_rota): ...
+
+    def _buscar_clima(self, pontos, data): ...
       
